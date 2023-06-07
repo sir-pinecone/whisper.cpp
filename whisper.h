@@ -5,18 +5,20 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#ifdef WHISPER_SHARED
-#    ifdef _WIN32
-#        ifdef WHISPER_BUILD
-#            define WHISPER_API __declspec(dllexport)
-#        else
-#            define WHISPER_API __declspec(dllimport)
-#        endif
-#    else
-#        define WHISPER_API __attribute__ ((visibility ("default")))
-#    endif
-#else
-#    define WHISPER_API
+#if !defined WHISPER_API
+  #ifdef WHISPER_SHARED
+  #    ifdef _WIN32
+  #        ifdef WHISPER_BUILD
+  #            define WHISPER_API __declspec(dllexport)
+  #        else
+  #            define WHISPER_API __declspec(dllimport)
+  #        endif
+  #    else
+  #        define WHISPER_API __attribute__ ((visibility ("default")))
+  #    endif
+  #else
+  #    define WHISPER_API
+  #endif
 #endif
 
 #define WHISPER_SAMPLE_RATE 16000

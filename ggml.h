@@ -169,18 +169,20 @@
 //
 //
 
-#ifdef GGML_SHARED
-#    if defined(_WIN32) && !defined(__MINGW32__)
-#        ifdef GGML_BUILD
-#            define GGML_API __declspec(dllexport)
-#        else
-#            define GGML_API __declspec(dllimport)
-#        endif
-#    else
-#        define GGML_API __attribute__ ((visibility ("default")))
-#    endif
-#else
-#    define GGML_API
+#if !defined GGML_API
+  #ifdef GGML_SHARED
+  #    if defined(_WIN32) && !defined(__MINGW32__)
+  #        ifdef GGML_BUILD
+  #            define GGML_API __declspec(dllexport)
+  #        else
+  #            define GGML_API __declspec(dllimport)
+  #        endif
+  #    else
+  #        define GGML_API __attribute__ ((visibility ("default")))
+  #    endif
+  #else
+  #    define GGML_API
+  #endif
 #endif
 
 #include <stdint.h>
@@ -894,7 +896,7 @@ extern "C" {
 
     // alibi position embedding
     // in-place, returns view(a)
-    struct ggml_tensor * ggml_alibi(
+    GGML_API struct ggml_tensor * ggml_alibi(
             struct ggml_context * ctx,
             struct ggml_tensor  * a,
             int                   n_past,
@@ -903,7 +905,7 @@ extern "C" {
 
     // clamp
     // in-place, returns view(a)
-    struct ggml_tensor * ggml_clamp(
+    GGML_API struct ggml_tensor * ggml_clamp(
             struct ggml_context * ctx,
             struct ggml_tensor  * a,
             float                 min,
@@ -1131,7 +1133,7 @@ extern "C" {
         enum ggml_type     vec_dot_type;
     } quantize_fns_t;
 
-    quantize_fns_t ggml_internal_get_quantize_fn(size_t i);
+    GGML_API quantize_fns_t ggml_internal_get_quantize_fn(size_t i);
 
 #ifdef  __cplusplus
 }
