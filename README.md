@@ -444,6 +444,15 @@ First, make sure you have installed `openblas`: https://www.openblas.net/
 
 Now build `whisper.cpp` with OpenBLAS support:
 
+@campo: update openblas
+
+    download the latest release zip from https://github.com/OpenMathLib/OpenBLAS/releases -- get the OpenBlas-0.x.xx.zip
+    extract
+    copy contents to /c/msys64/usr/local/include/openblas
+    in shell, run `make` to generate the config.h file. It'll take like 5-10 mins...
+
+then:
+
 ```
 make clean
 WHISPER_OPENBLAS=1 make -j
